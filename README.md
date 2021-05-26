@@ -38,7 +38,6 @@ __NOTE: To extend a more general use case, a PyTorch version is implemented in t
 
 Our codebase is built based on the [pytorch LSTM-CRF](https://github.com/allanj/pytorch_lstmcrf) repo.
 
-
 ### Requirements
 * PyTorch >= 1.1
 * Python 3

@@ -1,4 +1,3 @@
-
 import numpy as np
 from typing import List
 from common import Instance
@@ -10,6 +9,7 @@ class Span:
     A class of `Span` where we use it during evaluation.
     We construct spans for the convenience of evaluation.
     """
+
     def __init__(self, left: int, right: int, type: str):
         """
         A span compose of left, right (inclusive) and its entity label.
@@ -28,11 +28,13 @@ class Span:
         return hash((self.left, self.right, self.type))
 
 
-def evaluate_batch_insts(batch_insts: List[Instance],
-                         batch_pred_ids: torch.Tensor,
-                         batch_gold_ids: torch.LongTensor,
-                         word_seq_lens: torch.LongTensor,
-                         idx2label: List[str]) -> np.ndarray:
+def evaluate_batch_insts(
+    batch_insts: List[Instance],
+    batch_pred_ids: torch.Tensor,
+    batch_gold_ids: torch.LongTensor,
+    word_seq_lens: torch.LongTensor,
+    idx2label: List[str],
+) -> np.ndarray:
     """
     Evaluate a batch of instances and handling the padding positions.
     :param batch_insts:  a batched of instances.
@@ -53,9 +55,9 @@ def evaluate_batch_insts(batch_insts: List[Instance],
         prediction = batch_pred_ids[idx][:length].tolist()
         prediction = prediction[::-1]
         output = [idx2label[l] for l in output]
-        prediction =[idx2label[l] for l in prediction]
+        prediction = [idx2label[l] for l in prediction]
         batch_insts[idx].prediction = prediction
-        #convert to span
+        # convert to span
         output_spans = set()
         start = -1
         for i in range(len(output)):

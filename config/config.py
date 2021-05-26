@@ -1,4 +1,4 @@
-# 
+#
 # @author: Allan
 #
 
@@ -18,11 +18,12 @@ START = "<START>"
 STOP = "<STOP>"
 PAD = "<PAD>"
 
+
 class ContextEmb(Enum):
     none = 0
     elmo = 1
-    bert = 2 # not support yet
-    flair = 3 # not support yet
+    bert = 2  # not support yet
+    flair = 3  # not support yet
 
 
 class Config:
@@ -78,8 +79,6 @@ class Config:
         self.entity_keep_ratio = args.entity_keep_ratio
         self.num_folds = 2
 
-
-
         # Training hyperparameter
         self.model_folder = args.model_folder
         self.optimizer = args.optimizer.lower()
@@ -106,13 +105,15 @@ class Config:
         else:
             exists = os.path.isfile(self.embedding_file)
             if not exists:
-                print(colored("[Warning] pretrain embedding file not exists, using random embedding",  'red'), flush=True)
+                print(
+                    colored("[Warning] pretrain embedding file not exists, using random embedding", "red"), flush=True
+                )
                 time.sleep(3)
                 return None, self.embedding_dim
                 # raise FileNotFoundError("The embedding file does not exists")
         embedding_dim = -1
         embedding = dict()
-        with open(self.embedding_file, 'r', encoding='utf-8') as file:
+        with open(self.embedding_file, "r", encoding="utf-8") as file:
             for line in tqdm(file.readlines()):
                 line = line.strip()
                 if len(line) == 0:
@@ -123,14 +124,16 @@ class Config:
                 else:
                     # print(tokens)
                     # print(embedding_dim)
-                    assert (embedding_dim + 1 == len(tokens))
+                    assert embedding_dim + 1 == len(tokens)
                 embedd = np.empty([1, embedding_dim])
                 embedd[:] = tokens[1:]
                 first_col = tokens[0]
                 embedding[first_col] = embedd
         return embedding, embedding_dim
 
-    def build_word_idx(self, train_insts: List[Instance], dev_insts: List[Instance], test_insts: List[Instance]) -> None:
+    def build_word_idx(
+        self, train_insts: List[Instance], dev_insts: List[Instance], test_insts: List[Instance]
+    ) -> None:
         """
         Build the vocab 2 idx for all instances
         :param train_insts:
@@ -174,7 +177,10 @@ class Config:
         print("Building the embedding table for vocabulary...")
         scale = np.sqrt(3.0 / self.embedding_dim)
         if self.embedding is not None:
-            print("[Info] Use the pretrained word embedding to initialize: %d x %d" % (len(self.word2idx), self.embedding_dim))
+            print(
+                "[Info] Use the pretrained word embedding to initialize: %d x %d"
+                % (len(self.word2idx), self.embedding_dim)
+            )
             self.word_embedding = np.empty([len(self.word2idx), self.embedding_dim])
             for word in self.word2idx:
                 if word in self.embedding:
@@ -183,7 +189,9 @@ class Config:
                     self.word_embedding[self.word2idx[word], :] = self.embedding[word.lower()]
                 else:
                     # self.word_embedding[self.word2idx[word], :] = self.embedding[self.UNK]
-                    self.word_embedding[self.word2idx[word], :] = np.random.uniform(-scale, scale, [1, self.embedding_dim])
+                    self.word_embedding[self.word2idx[word], :] = np.random.uniform(
+                        -scale, scale, [1, self.embedding_dim]
+                    )
             self.embedding = None
         else:
             self.word_embedding = np.empty([len(self.word2idx), self.embedding_dim])
