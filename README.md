@@ -1,3 +1,34 @@
+We have modified their code to use our data and a Bert-based encoder instead of embeddings and lstm.
+
+Changes are in the adapted* files.
+
+
+
+CHANGELOG:
+  adapted_main.py
+    * removed many hyperparams that no longer make sense, added other for bert, removed downsampling of data
+    *
+
+  adapted_reader.py
+    * basically switched out with our partial_jsonl dataset reader
+
+
+
+Run commands:
+```
+python adapted_main.py\
+  --device "cuda:0"\
+  --train-file ../data/conll2003/eng/entity.train.jsonl\
+  --dev-file ../data/conll2003/eng/entity.dev.jsonl\
+  --test-file ../data/conll2003/eng/entity.test.jsonl\
+  --learning_rate "2e-5"\
+  --l2 0.0\
+  --num_epochs 10\
+  --model_folder eng-c_debug\
+  --bert-model roberta-base
+
+
+
 ## Better Modeling of Incomplete Annotation for Named Entity Recognition 
 
 This repository implements an LSTM-CRF model for named entity recognition. The model is same as the one by [Lample et al., (2016)](http://www.anthology.aclweb.org/N/N16/N16-1030.pdf) except we do not have the last `tanh` layer after the BiLSTM.
