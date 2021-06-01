@@ -273,9 +273,7 @@ class Reader:
                         **metadata,
                     )
                     logger.debug(f"\nAdding subdoc {subdoc_metadata['uid']} with len {len(subdoc_tokens)}")
-                    logger.debug(
-                        f'{" ".join([f"{t}/{l}" if l != self.latent_tag else t for t, l in zip(subdoc_tokens, subdoc_tags)])}'
-                    )
+                    logger.debug(f'{" ".join([f"{t}/{l}" for t, l in zip(subdoc_tokens, subdoc_tags)])}')
                     assert len(subdoc_tokens) == len(subdoc_tags)
                     subdocs.append((subdoc_tokens, subdoc_tags, subdoc_metadata))
                     s_tok = ends[i - 1]
@@ -320,9 +318,7 @@ class Reader:
                             **metadata,
                         )
                         logger.debug(f"\nAdding subdoc {subdoc_metadata['uid']} with len {len(subdoc_tokens)}")
-                        logger.debug(
-                            f'{" ".join([f"{t}/{l}" if l != self.latent_tag else t for t, l in zip(subdoc_tokens, subdoc_tags)])}'
-                        )
+                        logger.debug(f'{" ".join([f"{t}/{l}"  for t, l in zip(subdoc_tokens, subdoc_tags)])}')
                         assert len(subdoc_tokens) == len(subdoc_tags)
                         subdocs.append((subdoc_tokens, subdoc_tags, subdoc_metadata))
                     s_tok = e_tok

@@ -172,7 +172,7 @@ def train_model(
             result_filename=res_name,
         )
         print("Archiving the best Model...")
-        with tarfile.open(model_folder + "/" + model_folder + ".tar.gz", "w:gz") as tar:
+        with tarfile.open(model_folder + "/" + model_folder.replace("/", "_") + ".tar.gz", "w:gz") as tar:
             tar.add(model_folder, arcname=os.path.basename(model_folder))
         # print("The best dev: %.2f" % (best_dev[0]))
         # print("The corresponding test: %.2f" % (best_test[0]))
